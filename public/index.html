@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Babyfication - Transform Your Photos</title>
+    <link rel="stylesheet" href="dark-theme.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      .hero-social {
+        margin-top: 1.5rem;
+        justify-content: flex-start;
+        gap: 1rem;
+      }
+
+      .hero-social .social-icon {
+        font-size: 1.8rem;
+        color: var(--primary-color);
+        transition: color 0.3s, transform 0.3s;
+        margin-right: 1rem;
+      }
+
+      .hero-social .social-icon:hover {
+        color: var(--secondary-color);
+        transform: translateY(-3px);
+      }
+
+      .contract-address {
+        margin-top: 1.5rem;
+        padding: 10px 15px;
+        background: rgba(184, 115, 51, 0.1);
+        border-radius: 8px;
+        border: 1px solid var(--primary-color);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-family: monospace;
+        font-size: 0.9rem;
+      }
+
+      .copy-btn {
+        cursor: pointer;
+        background: var(--copper-gradient);
+        color: var(--light-color);
+        border: none;
+        border-radius: 4px;
+        padding: 5px 10px;
+        margin-left: 10px;
+        font-size: 0.8rem;
+      }
+
+      .contract-label {
+        font-weight: bold;
+        margin-right: 8px;
+        color: var(--primary-color);
+      }
+
+      .hero {
+        position: relative;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("babified.jpg") no-repeat;
+        background-size: cover;
+        background-position: center;
+        opacity: 0.1;
+        z-index: 0;
+        display: none;
+      }
+
+      .hero-image {
+        position: absolute;
+        right: 5%;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 0 30px rgba(184, 115, 51, 0.5);
+        border: 4px solid var(--primary-color);
+        z-index: 1;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .hero-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      /* Mobile responsiveness */
+      @media (max-width: 992px) {
+        .hero-image {
+          width: 250px;
+          height: 250px;
+          right: 2%;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hero::before {
+          display: block;
+        }
+
+        .hero-image {
+          display: none;
+        }
+
+        .hero-content {
+          max-width: 100%;
+          text-align: center;
+          padding: 0 1rem;
+        }
+
+        .hero-buttons,
+        .hero-social {
+          justify-content: center;
+        }
+
+        .contract-address {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .contract-address > div {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .copy-btn {
+          margin-left: 0;
+          width: 100%;
+        }
+      }
+
+      .celebrity-section {
+        padding: 4rem 0;
+        background-color: var(--secondary-bg);
+      }
+
+      .celebrities {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 3rem;
+        margin-top: 2rem;
+      }
+
+      .celebrity-card {
+        flex: 1;
+        min-width: 300px;
+        max-width: 400px;
+        background: var(--background-color);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: transform 0.3s;
+      }
+
+      .celebrity-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .celebrity-img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+      }
+
+      .celebrity-info {
+        padding: 1.5rem;
+      }
+
+      .celebrity-info h3 {
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+      }
+
+      .celebrity-info p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      .video-section {
+        margin-top: 3rem;
+        text-align: center;
+      }
+
+      .video-container {
+        max-width: 600px;
+        margin: 0 auto;
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+
+      .video-container video {
+        width: 100%;
+        display: block;
+      }
+
+      /* Tokenomics section styles */
+      .tokenomics {
+        background-color: var(--background-color);
+        padding: 5rem 0;
+        text-align: center;
+      }
+
+      .tokenomics-title {
+        margin-bottom: 3rem;
+        color: var(--light-color);
+      }
+
+      .tokenomics-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .tokenomics-card {
+        flex: 1;
+        min-width: 200px;
+        max-width: 250px;
+        background: var(--secondary-bg);
+        border-radius: var(--border-radius);
+        padding: 2rem;
+        box-shadow: var(--shadow);
+        transition: transform 0.3s;
+      }
+
+      .tokenomics-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 25px rgba(184, 115, 51, 0.3);
+      }
+
+      .tokenomics-icon {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+      }
+
+      .tokenomics-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--light-color);
+        margin-bottom: 0.5rem;
+      }
+
+      .tokenomics-label {
+        font-size: 1rem;
+        color: var(--text-color);
+      }
+
+      .tokenomics-description {
+        margin-top: 3rem;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.8;
+      }
+
+      .tokenomics-highlights {
+        margin-top: 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+      }
+
+      .tokenomics-highlight {
+        flex: 1;
+        min-width: 300px;
+        padding: 1.5rem;
+        background: rgba(184, 115, 51, 0.1);
+        border-radius: var(--border-radius);
+        border-left: 4px solid var(--primary-color);
+        text-align: left;
+      }
+
+      .tokenomics-highlight h4 {
+        color: var(--primary-color);
+        margin-bottom: 0.7rem;
+      }
+
+      /* Responsive adjustments for tokenomics section */
+      @media (max-width: 768px) {
+        .tokenomics-card {
+          min-width: 150px;
+          padding: 1.5rem;
+        }
+
+        .tokenomics-icon {
+          font-size: 2rem;
+        }
+
+        .tokenomics-value {
+          font-size: 1.5rem;
+        }
+
+        .tokenomics-highlight {
+          min-width: 100%;
+        }
+      }
+
+      /* Coming Soon Section Styles */
+      .coming-soon {
+        background-color: var(--secondary-bg);
+        padding: 5rem 0;
+        text-align: center;
+      }
+
+      .coming-soon h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary-color);
+      }
+
+      .coming-soon p {
+        font-size: 1.2rem;
+        max-width: 800px;
+        margin: 0 auto 1.5rem;
+      }
+
+      .coming-soon-social {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 2.5rem;
+      }
+
+      .coming-soon-social .social-icon {
+        font-size: 2.2rem;
+        color: var(--primary-color);
+        transition: all 0.3s ease;
+      }
+
+      .coming-soon-social .social-icon:hover {
+        transform: scale(1.2);
+        color: var(--secondary-color);
+      }
+
+      /* Notification Popup Styles */
+      .notification {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: var(--copper-gradient);
+        color: var(--light-color);
+        padding: 12px 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 1000;
+      }
+
+      .notification.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .notification i {
+        margin-right: 10px;
+        font-size: 1.2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Babyfication</h1>
+        <p class="tagline">Transform your photos into adorable baby versions</p>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h2>The New Trend Taking Over Social Media</h2>
+          <p>
+            Join thousands of people experiencing the joy of seeing themselves
+            as babies!
+          </p>
+          <div class="hero-buttons">
+            <a href="#coming-soon" class="btn pulse copper"
+              >Babify Your Photo</a
+            >
+            <a
+              href="https://dexscreener.com/ethereum/0xeca327a22629ea84501c2ea950e3dd6320661329"
+              target="_blank"
+              class="btn chart"
+              ><i class="fas fa-chart-line"></i> View Chart</a
+            >
+          </div>
+          <div class="social-links hero-social">
+            <a
+              href="https://x.com/babyficationeth"
+              target="_blank"
+              class="social-icon"
+              ><i class="fa-brands fa-x-twitter"></i
+            ></a>
+            <a
+              href="https://t.me/babyficationeth"
+              target="_blank"
+              class="social-icon"
+              ><i class="fab fa-telegram"></i
+            ></a>
+          </div>
+          <div class="contract-address">
+            <div>
+              <span class="contract-label">CA:</span>
+              <span class="ca-text"
+                >0x60a24e3040fe99cd51599b843551105741d23082</span
+              >
+            </div>
+            <button
+              class="copy-btn"
+              onclick="copyToClipboard('0x60a24e3040fe99cd51599b843551105741d23082')"
+            >
+              Copy
+            </button>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img src="babified.jpg" alt="Babyfied Image" />
+        </div>
+        <div class="floating-elements">
+          <div class="float-element" id="element1">👶</div>
+          <div class="float-element" id="element2">🍼</div>
+          <div class="float-element" id="element3">🧸</div>
+          <div class="float-element" id="element4">👼</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="celebrity-section">
+      <div class="container">
+        <h2>Celebrity Babyfication</h2>
+        <p class="section-description">
+          Even the most powerful and influential people can't resist the charm
+          of seeing their baby selves!
+        </p>
+
+        <div class="celebrities">
+          <div class="celebrity-card">
+            <img src="elonmusk.jpg" alt="Elon Musk" class="celebrity-img" />
+            <div class="celebrity-info">
+              <h3>Elon Musk</h3>
+              <p>
+                Tech billionaire Elon Musk was amazed to see his babyfied
+                version. The AI perfectly captured what he might have looked
+                like as a baby, keeping his distinctive features while adding
+                adorable baby-like qualities. "Even rocket science can't explain
+                how accurate this is," he reportedly joked.
+              </p>
+            </div>
+          </div>
+
+          <div class="celebrity-card">
+            <img
+              src="donaldtrump.jpg"
+              alt="Donald Trump"
+              class="celebrity-img"
+            />
+            <div class="celebrity-info">
+              <h3>Donald Trump</h3>
+              <p>
+                Former President Donald Trump's babyfied version went viral
+                across social media platforms. The transformation maintained his
+                iconic hairstyle while giving him the cute cheeks and big eyes
+                of a baby. "It's the best, most beautiful baby, perhaps ever,"
+                fans commented in Trump's signature style.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-section">
+          <h3>See Babyfication in Action</h3>
+          <div class="video-container">
+            <video autoplay loop muted playsinline>
+              <source src="babyfy-gif.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-it-works">
+      <div class="container">
+        <h2>How It Works</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-icon"><i class="fas fa-upload"></i></div>
+            <h3>Upload</h3>
+            <p>Select any photo you want to transform</p>
+          </div>
+          <div class="step">
+            <div class="step-icon"><i class="fas fa-magic"></i></div>
+            <h3>Transform</h3>
+            <p>Our AI works its magic to babify your image</p>
+          </div>
+          <div class="step">
+            <div class="step-icon"><i class="fas fa-download"></i></div>
+            <h3>Download</h3>
+            <p>Save and share your adorable baby version</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="coming-soon" class="coming-soon">
+      <div class="container">
+        <h2>Babyfication Tool Coming Soon</h2>
+        <p>
+          Our AI-powered photo transformation tool is currently in development.
+        </p>
+        <p>
+          Follow us on social media for updates on when you can start babifying
+          your own photos!
+        </p>
+        <div class="social-links coming-soon-social">
+          <a
+            href="https://x.com/babyficationeth"
+            target="_blank"
+            class="social-icon"
+            ><i class="fa-brands fa-x-twitter"></i
+          ></a>
+          <a
+            href="https://t.me/babyficationeth"
+            target="_blank"
+            class="social-icon"
+            ><i class="fab fa-telegram"></i
+          ></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tokenomics">
+      <div class="container">
+        <h2 class="tokenomics-title">Tokenomics</h2>
+
+        <div class="tokenomics-container">
+          <div class="tokenomics-card">
+            <div class="tokenomics-icon">
+              <i class="fas fa-coins"></i>
+            </div>
+            <div class="tokenomics-value">1,000,000,000</div>
+            <div class="tokenomics-label">Total Supply</div>
+          </div>
+
+          <div class="tokenomics-card">
+            <div class="tokenomics-icon">
+              <i class="fas fa-fire"></i>
+            </div>
+            <div class="tokenomics-value">100%</div>
+            <div class="tokenomics-label">Burn Rate</div>
+          </div>
+
+          <div class="tokenomics-card">
+            <div class="tokenomics-icon">
+              <i class="fas fa-lock"></i>
+            </div>
+            <div class="tokenomics-value">0%</div>
+            <div class="tokenomics-label">Buy/Sell Tax</div>
+          </div>
+        </div>
+
+        <div class="tokenomics-description">
+          <p>
+            Babyfication token is designed with a sustainable economic model
+            that rewards holders while supporting the platform's growth. With no
+            taxes and a deflationary mechanism, we aim to create long-term value
+            for our community.
+          </p>
+        </div>
+
+        <div class="tokenomics-highlights">
+          <div class="tokenomics-highlight">
+            <h4>Fair Distribution</h4>
+            <p>
+              50% of tokens allocated to public sale, 30% to liquidity, 10% to
+              development, and 10% to marketing. No team tokens.
+            </p>
+          </div>
+
+          <div class="tokenomics-highlight">
+            <h4>Utility Driven</h4>
+            <p>
+              Token holders get access to premium babyfication features, higher
+              resolution outputs, and priority processing.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <h2>Ready to Join the Community?</h2>
+        <a href="https://t.me/babyficationeth" target="_blank" class="btn large"
+          >Join Telegram</a
+        >
+        <p>
+          As mentioned by
+          <a href="https://www.youtube.com/watch?v=QnlXbS_IYR0" target="_blank"
+            >Theo Von</a
+          >
+          and trending across social media
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 Babyfication. All rights reserved.</p>
+        <p>Not affiliated with OpenAI. For entertainment purposes only.</p>
+      </div>
+    </footer>
+
+    <!-- Notification Popup -->
+    <div class="notification" id="notification">
+      <i class="fas fa-check-circle"></i>
+      <span>Contract address copied to clipboard!</span>
+    </div>
+
+    <script>
+      function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(
+          function () {
+            showNotification();
+          },
+          function (err) {
+            console.error("Could not copy text: ", err);
+          }
+        );
+      }
+
+      function showNotification() {
+        const notification = document.getElementById("notification");
+        notification.classList.add("show");
+
+        setTimeout(() => {
+          notification.classList.remove("show");
+        }, 3000);
+      }
+    </script>
+
+    <script src="script.js"></script>
+  </body>
+</html>
